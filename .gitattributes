@@ -1,0 +1,2 @@
+# Example of a `.gitattributes` file which reclassifies `.py` files as Python:
+*.py linguist-language=Python
