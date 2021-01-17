@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# import pandas as pd
+# import os
+from time import sleep
+import itertools
+
+from lib import sim_environment as sim_env
+from lib import agent_rules as agent_rules
+from lib import evaluation as evaluation
+from lib import display as disp
+
+e = sim_env.base()
+carnivores = sim_env.carnivores()
+herbivores = sim_env.herbivores()
+
+carnivores.create(number=carnivores.properties['initial_no'])
+herbivores.create(number=herbivores.properties['initial_no'])
+
+m = disp.base(herbivores=herbivores, carnivores=carnivores, environment=e)
+
+carnivores.properties['test']=[1,2,3,4,5]
+herbivores.properties['test']=[1,2]
+
+prop_list=list(itertools.product(carnivores.properties['test'], herbivores.properties['test']))
+
+
+
+
+for day in range(1, e.days, 1):
+	print("Day {!s}".format(day))
+	agent_rules.base.breed(breeders=herbivores, day=day)
+	agent_rules.base.breed(breeders=carnivores, day=day)
+	agent_rules.base.feed(predators=carnivores, prey=herbivores, day=day)
+	agent_rules.base.relocate(animals=carnivores)
+	agent_rules.base.relocate(animals=herbivores)
+	agent_rules.base.decease(animals=herbivores, day=day)
+	agent_rules.base.decease(animals = carnivores, day=day)
+	# evaluation.base.stats()
+	m.displaymap(carnivores=carnivores, herbivores=herbivores, day=day)
+	m.displaystats(carnivores=carnivores, herbivores=herbivores, day=day)
+
+sleep(5)
+e.cleanup()
