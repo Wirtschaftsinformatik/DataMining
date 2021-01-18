@@ -29,7 +29,7 @@ def probabilistic_model(nsize, parents):
     for k in range(nsize):
         probability_model += parents[k]
     probability_model /= nsize
-##    print("probability_model: ", probability_model)
+    print("probability_model: ", probability_model)
     return probability_model
 
 def probabilistic_model_laplace(nsize, parents):
