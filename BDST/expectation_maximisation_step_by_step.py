@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
-from sklearn.datasets.samples_generator import make_blobs
+from sklearn.datasets import make_blobs
 import numpy as np
 from scipy.stats import multivariate_normal
 import os
@@ -148,7 +148,7 @@ class GMM:
 			ax2.set_title('Final state')
 			for y in Y:
 				ax2.scatter(y[0],y[1],c='orange',zorder=10,s=100)
-				ax2.annotate(xy= (y[0]+.5 ,y[1]+.5), s='sample to predict', color='orange', fontsize=24)
+				ax2.annotate(xy= (y[0]+.5 ,y[1]+.5), text='sample to predict', color='orange', fontsize=24)
 		prediction = []
 		for m,c in zip(self.mu,self.cov):
 			#print(c)

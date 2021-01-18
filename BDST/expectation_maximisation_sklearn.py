@@ -6,7 +6,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import style
 style.use('fivethirtyeight')
-from sklearn.datasets.samples_generator import make_blobs
+from sklearn.datasets import make_blobs
 import numpy as np
 from scipy.stats import multivariate_normal
 from sklearn.mixture import GaussianMixture
@@ -58,7 +58,7 @@ for m,c in zip(means[:,0:2],covariances[:,0:2, 0:2]):
 				colors=colour[i],
 				alpha=0.3)
 	ax0.scatter(m[0],m[1],c=colour[i],zorder=10,s=100)
-	ax0.annotate(xy= (m[0]+.05 ,m[1]+.05), s='cluster {}'.format(i), color=colour[i], fontsize=24)
+	ax0.annotate(xy= (m[0]+.05 ,m[1]+.05), text='cluster {}'.format(i), color=colour[i], fontsize=24)
 	i+=1
 
 ax0.legend(legend)
