@@ -1,24 +1,27 @@
-print(__doc__)
-
+# based on https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
 import numpy as np
 
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
 from sklearn.datasets import make_blobs
+from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 
 
 # #############################################################################
 # Generate sample data
-centers = [[1, 1], [-1, -1], [1, -1]]
-X, labels_true = make_blobs(n_samples=750, centers=centers, cluster_std=0.4,
-							random_state=0)
+# centers = [[1, 1], [-1, -1], [1, -1]]
+# X, labels_true = make_blobs(n_samples=750, centers=centers, cluster_std=0.4, random_state=0)
 
+X,labels_true=load_iris(return_X_y=True)
+
+
+# scale the data
 X = StandardScaler().fit_transform(X)
 
 # #############################################################################
 # Compute DBSCAN
-db = DBSCAN(eps=0.3, min_samples=10).fit(X)
+db = DBSCAN(eps=1, min_samples=10).fit(X)
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 labels = db.labels_
@@ -55,12 +58,14 @@ for k, col in zip(unique_labels, colors):
 	class_member_mask = (labels == k)
 
 	xy = X[class_member_mask & core_samples_mask]
-	plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-			 markeredgecolor='k', markersize=14)
+	# plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+	# 		 markeredgecolor='k', markersize=14)
+	plt.plot(xy[:, 0], xy[:, 1], 'o',
+			 markersize=4)
 
 	xy = X[class_member_mask & ~core_samples_mask]
-	plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-			 markeredgecolor='k', markersize=6)
+	plt.plot(xy[:, 0], xy[:, 1], '*', markerfacecolor=tuple(col),
+			 markeredgecolor='k', markersize=2)
 
-plt.title('Estimated number of clusters: %d' % n_clusters_)
+plt.title('Estimated number of clusters: {}'.format(n_clusters_))
 plt.show()
