@@ -83,7 +83,8 @@ def modeling(x_train, y_train):
 	# instanziere Algorithmus
 	knn = KNeighborsClassifier()
 	# definiere mögliche Parameterwerte als Liste -> []!
-	parameter = {'n_neighbors': list(np.arange(3, 20, 2))
+	parameter = {'n_neighbors': list(np.arange(3, 20, 2)),
+	             'p': [2]
 	             }
 	model = GridSearchCV(estimator=knn,
 	                     param_grid=parameter,
@@ -125,6 +126,9 @@ def visualise_accuracy(*, model=None):
 	scores_train = cv_results['mean_train_score']
 
 	x = model.param_grid['n_neighbors']
+
+	# Achtung: hier ist nicht ganz sauber programmiert,
+	# da er nur den ersten Parameter visualisiert...
 	plt.plot(x, scores_mean)
 	plt.xlabel('n_neighbors')
 	plt.xticks(x)
@@ -134,8 +138,10 @@ def visualise_accuracy(*, model=None):
 
 
 def visualise_prediction(*, data=None):
+	# Anzeige in eigener Umgebung....
 	my.plot_in_2_dims(data=data, title="Data Understanding")
 	fig = px.parallel_coordinates(data, color='target')
+	# Anzeige im Browser....
 	fig.show()
 
 
